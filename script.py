@@ -13,6 +13,7 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 EMAILJS_SERVICE_ID = "service_hzctvxf"
 EMAILJS_TEMPLATE_ID = "template_c5fgogi"
 EMAILJS_PUBLIC_KEY = "qZRu7AJ6k_hMVbZlq"
+SECOND_EMAILJS_TEMPLATE_ID = "template_slfpy9c"
 
 LOGO_URL = "https://hsswbfymhvertfhdgueg.supabase.co/storage/v1/object/sign/Eduvic/Eduvic.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85ODEzNDhlNS05NjMyLTRjMjMtOTEzNi1kZWNlODAyYzEwY2QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJFZHV2aWMvRWR1dmljLmpwZWciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzgzOTQ2NjI1LCJleHAiOjE4MTU0ODI2MjV9.IwDW2MuRdgwxqgx4hiWrDm-WdkdIlk_CE-3L8oVU1AE"
 
@@ -38,11 +39,33 @@ def send_async_email(recipient, name, date, time):
         print(f"Web Portal Email Thread Exception Error for {recipient}: {e}")
 
 
+def second_mail(name, date, time):
+    url = "https://api.emailjs.com/api/v1.0/email/send"
+    payload = {
+        "service_id": EMAILJS_SERVICE_ID,
+        "template_id": SECOND_EMAILJS_TEMPLATE_ID,
+        "user_id": EMAILJS_PUBLIC_KEY,
+        "template_params": {
+            "name": name,
+            "date": date,
+            "time": time
+        }
+    }
+    try:
+        response = requests.post(url, json=payload)
+        print(f"DEBUG: Web Portal EmailJS Status for {recipient}: {response.status_code}")
+    except Exception as e:
+        print(f"Web Portal Email Thread Exception Error for {recipient}: {e}")
+
+
+
+
+
 # --- Dual Notification Dispatcher ---
 def dispatch_all_notifications(client_email, client_name, date, time, phone):
     send_async_email(client_email, client_name, date, time)
     admin_subject = f"🚨 NEW BOOKING: {client_name} ({phone})"
-    send_async_email("workdoxa@gmail.com", admin_subject, date, time)
+    second_mail("workdoxa@gmail.com", admin_subject, date, time)
 
 
 # --- 3. STREAMLIT PAGE & WELCOME STATE CONTROL ---
