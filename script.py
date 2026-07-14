@@ -254,7 +254,7 @@ if not st.session_state.modal_cleared:
 # --- 6. CORE PORTAL WEB INTERFACE (ACTIVE VIEWPORT) ---
 col_logo, _ = st.columns([1, 4])
 with col_logo:
-    st.image(LOGO_URL1, width=140)
+    st.image(LOGO_URL, width=140)
 
 st.title("Appointment Scheduling Portal")
 st.markdown(
