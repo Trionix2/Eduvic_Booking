@@ -48,7 +48,7 @@ def second_mail(recipient,name, date, time):
         "template_id": SECOND_EMAILJS_TEMPLATE_ID,
         "user_id": SECOND_EMAILJS_PUBLIC_KEY,
         "template_params": {
-            "recipient" email,
+            "recipient": email,
             "name": name,
             "date": date,
             "time": time
