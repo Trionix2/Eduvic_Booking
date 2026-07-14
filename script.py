@@ -12,7 +12,7 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 EMAILJS_SERVICE_ID = "service_us6etit"
 EMAILJS_TEMPLATE_ID = "template_slfpy9c"
-EMAILJS_PUBLIC_KEY = "qZRu7AJ6k_hMVbZlq"
+EMAILJS_PUBLIC_KEY = "GHxJqyiZqMz3TP7Y4"
 SECOND_EMAILJS_TEMPLATE_ID = "template_slfpy9c"
 
 LOGO_URL = "https://hsswbfymhvertfhdgueg.supabase.co/storage/v1/object/sign/Eduvic/Eduvic.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85ODEzNDhlNS05NjMyLTRjMjMtOTEzNi1kZWNlODAyYzEwY2QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJFZHV2aWMvRWR1dmljLmpwZWciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzgzOTQ2NjI1LCJleHAiOjE4MTU0ODI2MjV9.IwDW2MuRdgwxqgx4hiWrDm-WdkdIlk_CE-3L8oVU1AE"
