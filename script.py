@@ -172,14 +172,19 @@ custom_css = f"""
         }}
     }}
 
-    /* Explicitly override Streamlit's Dialog/Modal box colors dynamically */
-    div[role="dialog"] {{
+    /* 🎯 HIGH SPECIFICITY TARGET FOR THE STREAMLIT DIALOG DIALOG OVERLAYS 🎯 */
+    div[data-testid="stModal"] div[role="dialog"] {{
         background-color: {card_bg} !important;
         color: {text_color} !important;
+        border: 1px solid {input_border} !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
         transition: background-color 0.3s ease-in-out;
     }}
     
-    div[role="dialog"] h2, div[role="dialog"] p, div[role="dialog"] span {{
+    div[data-testid="stModal"] div[role="dialog"] h2, 
+    div[data-testid="stModal"] div[role="dialog"] p, 
+    div[data-testid="stModal"] div[role="dialog"] span,
+    div[data-testid="stModal"] div[role="dialog"] div {{
         color: {text_color} !important;
     }}
 
@@ -242,8 +247,6 @@ custom_css = f"""
 </style>
 """
 st.markdown(custom_css, unsafe_allow_html=True)
-
-
 # --- 6. INTERACTIVE WELCOME MODAL OVERLAY ---
 if not st.session_state.modal_cleared:
     @st.dialog("WELCOME TO EDUVIC TRAVELS", width="large")
