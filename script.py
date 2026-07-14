@@ -18,7 +18,7 @@ SECOND_EMAILJS_SERVICE_ID = "service_us6etit"
 SECOND_EMAILJS_PUBLIC_KEY = "GHxJqyiZqMz3TP7Y4"
 
 LOGO_URL = "https://hsswbfymhvertfhdgueg.supabase.co/storage/v1/object/sign/Eduvic/Eduvic.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85ODEzNDhlNS05NjMyLTRjMjMtOTEzNi1kZWNlODAyYzEwY2QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJFZHV2aWMvRWR1dmljLmpwZWciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzgzOTQ2NjI1LCJleHAiOjE4MTU0ODI2MjV9.IwDW2MuRdgwxqgx4hiWrDm-WdkdIlk_CE-3L8oVU1AE"
-
+LOGO_URL1 = "https://hsswbfymhvertfhdgueg.supabase.co/storage/v1/object/sign/Eduvic/Eduvic%204.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85ODEzNDhlNS05NjMyLTRjMjMtOTEzNi1kZWNlODAyYzEwY2QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJFZHV2aWMvRWR1dmljIDQuanBlZyIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3ODQwMzc3MzIsImV4cCI6MTgxNTU3MzczMn0.b0FE0tmZ1r-hgfcluhXIEulMR486WGA-a3n6vwITU1c
 
 # --- 2. ASYNCHRONOUS EMAIL SENDER HELPER ---
 def send_async_email(recipient, name, date, time):
@@ -232,7 +232,7 @@ if not st.session_state.modal_cleared:
     def show_welcome_modal():
         col_m_logo, _ = st.columns([1, 3])
         with col_m_logo:
-            st.image(LOGO_URL, width=130)
+            st.image(LOGO_URL2, width=130)
 
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown(
@@ -254,7 +254,7 @@ if not st.session_state.modal_cleared:
 # --- 6. CORE PORTAL WEB INTERFACE (ACTIVE VIEWPORT) ---
 col_logo, _ = st.columns([1, 4])
 with col_logo:
-    st.image(LOGO_URL, width=140)
+    st.image(LOGO_URL2, width=140)
 
 st.title("Appointment Scheduling Portal")
 st.markdown(
