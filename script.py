@@ -51,98 +51,53 @@ st.set_page_config(page_title="Eduvic Travels - Booking Portal", page_icon="🌟
 if "modal_cleared" not in st.session_state:
     st.session_state.modal_cleared = False
 
-if "dark_mode" not in st.session_state:
-    st.session_state.dark_mode = False
 
-
-# --- 4. THEME SWITCHER BUTTON CONTAINER ---
-with st.container(key="theme_container"):
-    theme_label = "☀️ LIGHT MODE" if st.session_state.dark_mode else "🌙 DARK MODE"
-    if st.button(theme_label, key="theme_switcher_btn"):
-        st.session_state.dark_mode = not st.session_state.dark_mode
-        st.rerun()
-
-
-# --- 5. THEME DESIGN VARIABLES & CSS INJECTION ---
-if st.session_state.dark_mode:
-    bg_color = "#0A192F"       # Deep Slate Blue
-    card_bg = "#172A45"        # Lighter Slate for the card
-    text_color = "#F8F9FA"     # Crisp light text
-    sub_text = "#8892B0"       # Subtle muted gray-blue
-    input_border = "#233554"   # Dark border accents
-    input_focus = "#FF6600"    # Orange highlight on active fields
-    hr_color = "#233554"
-    theme_btn_bg = "#172A45"   # Dark button background
-    theme_btn_text = "#F8F9FA" # Light button text
-    theme_btn_border = "1px solid #233554"
-    
-    # Footer Palette
-    footer_bg = "#0B1E36"      # Extra deep dark contrast block
-    footer_text = "#8892B0"    # Muted readable slate
-else:
-    bg_color = "#F4F6F9"       # Light professional gray
-    card_bg = "#FFFFFF"        # Clean pure white card
-    text_color = "#0A2540"     # Deep corporate navy
-    sub_text = "#555555"       # Muted slate gray
-    input_border = "#CCD6F6"   # Soft light borders
-    input_focus = "#FF6600"    # Orange highlight on active fields
-    hr_color = "#EAEAEA"
-    theme_btn_bg = "#FFFFFF"   # White theme button
-    theme_btn_text = "#0A2540" # Dark theme button text
-    theme_btn_border = "1px solid #CCD6F6"
-    
-    # Footer Palette
-    footer_bg = "#0A2540"      # Sleek deep navy contrast block
-    footer_text = "#CCD6F6"    # Soft light blue-gray for readability
-
-
-custom_css = f"""
+# --- 4. DYNAMIC NATIVE THEME CONFIGURATION (CSS Variables) ---
+custom_css = """
 <style>
+    /* Define dynamic color variables based on system preference */
+    :root {
+        --bg-color: #F4F6F9;
+        --card-bg: #FFFFFF;
+        --text-color: #0A2540;
+        --sub-text: #555555;
+        --input-border: #CCD6F6;
+        --input-focus: #FF6600;
+        --hr-color: #EAEAEA;
+        --footer-bg: #0A2540;
+        --footer-text: #CCD6F6;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg-color: #0A192F;
+            --card-bg: #172A45;
+            --text-color: #F8F9FA;
+            --sub-text: #8892B0;
+            --input-border: #233554;
+            --input-focus: #FF6600;
+            --hr-color: #233554;
+            --footer-bg: #0B1E36;
+            --footer-text: #8892B0;
+        }
+    }
+
     /* REMOVE ALL DEFAULT STREAMLIT CHROMIUM WRAPPERS */
-    #MainMenu {{visibility: hidden;}}
-    header {{visibility: hidden;}}
-    footer {{visibility: hidden;}}
-    .stAppDeployButton {{display: none;}}
+    #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+    .stAppDeployButton {display: none;}
 
     /* Dynamic Base Page Backdrop */
-    .stApp {{
-        background-color: {bg_color} !important;
+    .stApp {
+        background-color: var(--bg-color) !important;
         transition: background-color 0.3s ease-in-out;
-    }}
-
-    /* 📌 TARGET THEME SWITCHER CONTAINER FOR FIXED POSITIONING ON THE LEFT */
-    div[data-element-id="theme_container"] {{
-        position: fixed !important;
-        top: 25px !important;
-        left: 25px !important;
-        z-index: 999999 !important;
-        width: auto !important;
-    }}
-
-    /* Style the fixed theme button */
-    div[data-element-id="theme_container"] button {{
-        background-color: {theme_btn_bg} !important;
-        color: {theme_btn_text} !important;
-        border: {theme_btn_border} !important;
-        padding: 0.5rem 1.2rem !important;
-        font-size: 0.85rem !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.5px !important;
-        border-radius: 4px !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-        text-transform: uppercase !important;
-        transition: all 0.2s ease-in-out !important;
-    }}
-
-    div[data-element-id="theme_container"] button:hover {{
-        transform: translateY(-1px) !important;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15) !important;
-    }}
+    }
 
     /* Sharp Structural Card Layout Block */
-    .block-container {{
+    .block-container {
         max-width: 850px !important;
-        background-color: {card_bg} !important;
+        background-color: var(--card-bg) !important;
         padding: 4rem 4.5rem !important;
         border-radius: 4px !important; 
         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18) !important;
@@ -152,77 +107,73 @@ custom_css = f"""
         border-top: 6px solid #FF6600 !important; 
         transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         animation: fadeIn 0.6s ease-in-out;
-    }}
+    }
 
-    @keyframes fadeIn {{
-        from {{ opacity: 0; transform: translateY(10px); }}
-        to {{ opacity: 1; transform: translateY(0); }}
-    }}
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
     /* 📱 RESPONSIVE BREAKPOINTS FOR MOBILE SCREENS */
-    @media (max-width: 768px) {{
-        .block-container {{
+    @media (max-width: 768px) {
+        .block-container {
             padding: 2rem 1.5rem !important;
             margin-top: 1.5rem !important;
             margin-bottom: 1.5rem !important;
-        }}
-        div[data-element-id="theme_container"] {{
-            top: 15px !important;
-            left: 15px !important;
-        }}
-    }}
+        }
+    }
 
-    /* 🎯 HIGH SPECIFICITY TARGET FOR THE STREAMLIT DIALOG DIALOG OVERLAYS 🎯 */
-    div[data-testid="stModal"] div[role="dialog"] {{
-        background-color: {card_bg} !important;
-        color: {text_color} !important;
-        border: 1px solid {input_border} !important;
+    /* 🎯 HIGH SPECIFICITY TARGET FOR THE STREAMLIT DIALOG DIALOG OVERLAYS */
+    div[data-testid="stModal"] div[role="dialog"] {
+        background-color: var(--card-bg) !important;
+        color: var(--text-color) !important;
+        border: 1px solid var(--input-border) !important;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
         transition: background-color 0.3s ease-in-out;
-    }}
+    }
     
     div[data-testid="stModal"] div[role="dialog"] h2, 
     div[data-testid="stModal"] div[role="dialog"] p, 
     div[data-testid="stModal"] div[role="dialog"] span,
-    div[data-testid="stModal"] div[role="dialog"] div {{
-        color: {text_color} !important;
-    }}
+    div[data-testid="stModal"] div[role="dialog"] div {
+        color: var(--text-color) !important;
+    }
 
     /* Sharpened & Responsive Input styling with Orange Focus highlights */
-    input, select, div[data-baseweb="select"] {{
+    input, select, div[data-baseweb="select"] {
         border-radius: 4px !important;
-        border: 1px solid {input_border} !important;
-        background-color: {card_bg} !important;
-        color: {text_color} !important;
+        border: 1px solid var(--input-border) !important;
+        background-color: var(--card-bg) !important;
+        color: var(--text-color) !important;
         transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
-    }}
+    }
     
-    input:focus, select:focus {{
-        border-color: {input_focus} !important;
+    input:focus, select:focus {
+        border-color: var(--input-focus) !important;
         box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.15) !important;
-    }}
+    }
 
     /* Text Layer Font Hierarchy Rules */
-    h1 {{
-        color: {text_color} !important;
+    h1 {
+        color: var(--text-color) !important;
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
         font-weight: 700 !important;
         letter-spacing: -0.5px !important;
-    }}
+    }
 
-    h2, h3, label, .stWidgetLabel p {{
-        color: {text_color} !important;
+    h2, h3, label, .stWidgetLabel p {
+        color: var(--text-color) !important;
         font-weight: 600 !important;
         font-family: 'Helvetica Neue', Arial, sans-serif !important;
-    }}
+    }
 
     /* Dynamic divider styling */
-    hr {{
-        border-top: 1px solid {hr_color} !important;
-    }}
+    hr {
+        border-top: 1px solid var(--hr-color) !important;
+    }
 
     /* 🌟 UNIVERSAL STYLING FOR ALL MAIN ACTION BUTTONS (Signature Orange) */
-    div.stButton:not(div[data-element-id="theme_container"] div.stButton) button {{
+    div.stButton button {
         background-color: #FF6600 !important;
         color: white !important;
         border: none !important;
@@ -233,21 +184,23 @@ custom_css = f"""
         border-radius: 4px !important; 
         transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.1s ease !important;
         box-shadow: 0 4px 10px rgba(255, 102, 0, 0.2) !important;
-    }}
+    }
 
-    div.stButton:not(div[data-element-id="theme_container"] div.stButton) button:hover {{
+    div.stButton button:hover {
         background-color: #E65C00 !important;
         transform: translateY(-1px) !important;
         box-shadow: 0 6px 14px rgba(255, 102, 0, 0.3) !important;
-    }}
+    }
     
-    div.stButton:not(div[data-element-id="theme_container"] div.stButton) button:active {{
+    div.stButton button:active {
         transform: translateY(1px) !important;
-    }}
+    }
 </style>
 """
 st.markdown(custom_css, unsafe_allow_html=True)
-# --- 6. INTERACTIVE WELCOME MODAL OVERLAY ---
+
+
+# --- 5. INTERACTIVE WELCOME MODAL OVERLAY ---
 if not st.session_state.modal_cleared:
     @st.dialog("WELCOME TO EDUVIC TRAVELS", width="large")
     def show_welcome_modal():
@@ -257,10 +210,10 @@ if not st.session_state.modal_cleared:
 
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown(
-            f"<h2 style='text-align:left; font-weight:700; margin-top:0; color:{text_color};'>Travel From Within to Beyond Borders</h2>",
+            "<h2 style='text-align:left; font-weight:700; margin-top:0;'>Travel From Within to Beyond Borders</h2>",
             unsafe_allow_html=True)
         st.markdown(
-            f"<p style='color:{sub_text}; font-size:1.1rem;'>Access our live scheduling engine to seamlessly book your expert travel consultation session.</p>",
+            "<p style='font-size:1.1rem;'>Access our live scheduling engine to seamlessly book your expert travel consultation session.</p>",
             unsafe_allow_html=True)
         st.markdown("<br>", unsafe_allow_html=True)
 
@@ -272,19 +225,19 @@ if not st.session_state.modal_cleared:
     st.stop()
 
 
-# --- 7. CORE PORTAL WEB INTERFACE (ACTIVE VIEWPORT) ---
+# --- 6. CORE PORTAL WEB INTERFACE (ACTIVE VIEWPORT) ---
 col_logo, _ = st.columns([1, 4])
 with col_logo:
     st.image(LOGO_URL, width=140)
 
 st.title("Appointment Scheduling Portal")
 st.markdown(
-    f"<p style='color:{sub_text}; font-size:1.05rem; margin-top:-10px;'>Select an open calendar date and window below to complete secure consultation booking.</p>",
+    "<p style='font-size:1.05rem; margin-top:-10px;'>Select an open calendar date and window below to complete secure consultation booking.</p>",
     unsafe_allow_html=True)
 st.markdown("<hr>", unsafe_allow_html=True)
 
 
-# --- 8. FETCH AVAILABLE SLOTS FROM SUPABASE ---
+# --- 7. FETCH AVAILABLE SLOTS FROM SUPABASE ---
 @st.cache_data(ttl=5)
 def fetch_available_slots():
     try:
@@ -299,7 +252,7 @@ all_slots = fetch_available_slots()
 if not all_slots:
     st.warning("⚠️ No slots are currently available for booking. Please contact our support team or check back later!")
 else:
-    # --- 9. MINIMALIST TWO-COLUMN TIMELINE UI ---
+    # --- 8. MINIMALIST TWO-COLUMN TIMELINE UI ---
     unique_dates = sorted(list(set([slot["appointment_date"] for slot in all_slots])))
 
     col_s1, col_s2 = st.columns(2)
@@ -325,7 +278,7 @@ else:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # --- 10. DATA SUBMISSION & DATABASE WRITING ---
+    # --- 9. DATA SUBMISSION & DATABASE WRITING ---
     if st.button("Confirm Appointment", use_container_width=True, key="submit_booking_btn"):
         name_val = st.session_state.client_name_input.strip()
         email_val = st.session_state.client_email_input.strip()
@@ -362,15 +315,15 @@ else:
                 except Exception as e:
                     st.error(f"Database sync operation rejected: {e}")
 
-# --- 11. PROFESSIONAL CORPORATE FOOTER WITH INQUIRIES NUMBER & SLEEK DARK BG ---
+# --- 10. PROFESSIONAL CORPORATE FOOTER WITH INQUIRIES NUMBER & SLEEK DARK BG ---
 st.markdown("<br><hr>", unsafe_allow_html=True)
 st.markdown(
-    f"""
-    <div style="background-color: {footer_bg}; text-align: center; padding: 25px 20px; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: background-color 0.3s ease;">
-        <p style="margin: 0 0 10px 0; font-size: 0.95rem; color: {footer_text}; font-weight: 500;">
+    """
+    <div class="booking-footer" style="background-color: var(--footer-bg); text-align: center; padding: 25px 20px; border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: background-color 0.3s ease;">
+        <p style="margin: 0 0 10px 0; font-size: 0.95rem; color: var(--footer-text); font-weight: 500;">
             For further inquiries, please contact us at <a href="tel:08126669153" style="color: #FF6600; text-decoration: none; font-weight: bold;">08126669153</a>
         </p>
-        <p style="margin: 0; font-size: 0.9rem; color: {footer_text}; font-weight: 500; opacity: 0.95;">
+        <p style="margin: 0; font-size: 0.9rem; color: var(--footer-text); font-weight: 500; opacity: 0.95;">
             © 2026 <strong>Eduvic Travels</strong>. All rights reserved.
         </p>
         <p style="margin: 10px 0 0 0; font-size: 0.8rem; color: #FF6600; font-weight: bold; letter-spacing: 0.5px;">
