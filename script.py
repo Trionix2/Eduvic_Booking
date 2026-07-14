@@ -38,12 +38,9 @@ def send_async_email(recipient, name, date, time):
         print(f"Web Portal Email Thread Exception Error for {recipient}: {e}")
 
 
-# --- Dual Notification Dispatcher (Runs asynchronously to avoid lagging the UI) ---
+# --- Dual Notification Dispatcher ---
 def dispatch_all_notifications(client_email, client_name, date, time, phone):
-    # 1. Send confirmation email to the client
     send_async_email(client_email, client_name, date, time)
-
-    # 2. Send instant alert notification to the admin (workdoxa@gmail.com)
     admin_subject = f"🚨 NEW BOOKING: {client_name} ({phone})"
     send_async_email("workdoxa@gmail.com", admin_subject, date, time)
 
@@ -57,6 +54,7 @@ if "modal_cleared" not in st.session_state:
 if "dark_mode" not in st.session_state:
     st.session_state.dark_mode = False
 
+
 # --- 4. THEME SWITCHER BUTTON CONTAINER ---
 with st.container(key="theme_container"):
     theme_label = "☀️ LIGHT MODE" if st.session_state.dark_mode else "🌙 DARK MODE"
@@ -64,37 +62,39 @@ with st.container(key="theme_container"):
         st.session_state.dark_mode = not st.session_state.dark_mode
         st.rerun()
 
+
 # --- 5. THEME DESIGN VARIABLES & CSS INJECTION ---
 if st.session_state.dark_mode:
-    bg_color = "#0A192F"  # Deep Slate Blue
-    card_bg = "#172A45"  # Lighter Slate for the card
-    text_color = "#F8F9FA"  # Crisp light text
-    sub_text = "#8892B0"  # Subtle muted gray-blue
-    input_border = "#233554"  # Dark border accents
-    input_focus = "#FF6600"  # Orange highlight on active fields
+    bg_color = "#0A192F"       # Deep Slate Blue
+    card_bg = "#172A45"        # Lighter Slate for the card
+    text_color = "#F8F9FA"     # Crisp light text
+    sub_text = "#8892B0"       # Subtle muted gray-blue
+    input_border = "#233554"   # Dark border accents
+    input_focus = "#FF6600"    # Orange highlight on active fields
     hr_color = "#233554"
-    theme_btn_bg = "#172A45"  # Dark button background
-    theme_btn_text = "#F8F9FA"  # Light button text
+    theme_btn_bg = "#172A45"   # Dark button background
+    theme_btn_text = "#F8F9FA" # Light button text
     theme_btn_border = "1px solid #233554"
-
+    
     # Footer Palette
-    footer_bg = "#0B1E36"  # Extra deep dark contrast block
-    footer_text = "#8892B0"  # Muted readable slate
+    footer_bg = "#0B1E36"      # Extra deep dark contrast block
+    footer_text = "#8892B0"    # Muted readable slate
 else:
-    bg_color = "#F4F6F9"  # Light professional gray
-    card_bg = "#FFFFFF"  # Clean pure white card
-    text_color = "#0A2540"  # Deep corporate navy
-    sub_text = "#555555"  # Muted slate gray
-    input_border = "#CCD6F6"  # Soft light borders
-    input_focus = "#FF6600"  # Orange highlight on active fields
+    bg_color = "#F4F6F9"       # Light professional gray
+    card_bg = "#FFFFFF"        # Clean pure white card
+    text_color = "#0A2540"     # Deep corporate navy
+    sub_text = "#555555"       # Muted slate gray
+    input_border = "#CCD6F6"   # Soft light borders
+    input_focus = "#FF6600"    # Orange highlight on active fields
     hr_color = "#EAEAEA"
-    theme_btn_bg = "#FFFFFF"  # White theme button
-    theme_btn_text = "#0A2540"  # Dark theme button text
+    theme_btn_bg = "#FFFFFF"   # White theme button
+    theme_btn_text = "#0A2540" # Dark theme button text
     theme_btn_border = "1px solid #CCD6F6"
-
+    
     # Footer Palette
-    footer_bg = "#0A2540"  # Sleek deep navy contrast block
-    footer_text = "#CCD6F6"  # Soft light blue-gray for readability
+    footer_bg = "#0A2540"      # Sleek deep navy contrast block
+    footer_text = "#CCD6F6"    # Soft light blue-gray for readability
+
 
 custom_css = f"""
 <style>
@@ -172,6 +172,17 @@ custom_css = f"""
         }}
     }}
 
+    /* Explicitly override Streamlit's Dialog/Modal box colors dynamically */
+    div[role="dialog"] {{
+        background-color: {card_bg} !important;
+        color: {text_color} !important;
+        transition: background-color 0.3s ease-in-out;
+    }}
+    
+    div[role="dialog"] h2, div[role="dialog"] p, div[role="dialog"] span {{
+        color: {text_color} !important;
+    }}
+
     /* Sharpened & Responsive Input styling with Orange Focus highlights */
     input, select, div[data-baseweb="select"] {{
         border-radius: 4px !important;
@@ -180,7 +191,7 @@ custom_css = f"""
         color: {text_color} !important;
         transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
     }}
-
+    
     input:focus, select:focus {{
         border-color: {input_focus} !important;
         box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.15) !important;
@@ -224,13 +235,14 @@ custom_css = f"""
         transform: translateY(-1px) !important;
         box-shadow: 0 6px 14px rgba(255, 102, 0, 0.3) !important;
     }}
-
+    
     div.stButton:not(div[data-element-id="theme_container"] div.stButton) button:active {{
         transform: translateY(1px) !important;
     }}
 </style>
 """
 st.markdown(custom_css, unsafe_allow_html=True)
+
 
 # --- 6. INTERACTIVE WELCOME MODAL OVERLAY ---
 if not st.session_state.modal_cleared:
@@ -242,7 +254,7 @@ if not st.session_state.modal_cleared:
 
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown(
-            "<h2 style='text-align:left; font-weight:700; margin-top:0;'>Travel From Within to Beyond Borders</h2>",
+            f"<h2 style='text-align:left; font-weight:700; margin-top:0; color:{text_color};'>Travel From Within to Beyond Borders</h2>",
             unsafe_allow_html=True)
         st.markdown(
             f"<p style='color:{sub_text}; font-size:1.1rem;'>Access our live scheduling engine to seamlessly book your expert travel consultation session.</p>",
@@ -253,9 +265,9 @@ if not st.session_state.modal_cleared:
             st.session_state.modal_cleared = True
             st.rerun()
 
-
     show_welcome_modal()
     st.stop()
+
 
 # --- 7. CORE PORTAL WEB INTERFACE (ACTIVE VIEWPORT) ---
 col_logo, _ = st.columns([1, 4])
@@ -278,7 +290,6 @@ def fetch_available_slots():
     except Exception as e:
         st.error(f"Error fetching database rows: {e}")
         return []
-
 
 all_slots = fetch_available_slots()
 
