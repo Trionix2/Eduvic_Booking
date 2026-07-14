@@ -13,7 +13,9 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 EMAILJS_SERVICE_ID = "service_hzctvxf"
 EMAILJS_TEMPLATE_ID = "template_c5fgogi"
 EMAILJS_PUBLIC_KEY = "qZRu7AJ6k_hMVbZlq"
-SECOND_EMAILJS_TEMPLATE_ID = "template_02dadlh"
+SECOND_EMAILJS_TEMPLATE_ID = "template_slfpy9c"
+SECOND_EMAILJS_SERVICE_ID = "service_us6etit"
+SECOND_EMAILJS_PUBLIC_KEY = "GHxJqyiZqMz3TP7Y4"
 
 LOGO_URL = "https://hsswbfymhvertfhdgueg.supabase.co/storage/v1/object/sign/Eduvic/Eduvic.jpeg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV85ODEzNDhlNS05NjMyLTRjMjMtOTEzNi1kZWNlODAyYzEwY2QiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJFZHV2aWMvRWR1dmljLmpwZWciLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzgzOTQ2NjI1LCJleHAiOjE4MTU0ODI2MjV9.IwDW2MuRdgwxqgx4hiWrDm-WdkdIlk_CE-3L8oVU1AE"
 
@@ -39,13 +41,14 @@ def send_async_email(recipient, name, date, time):
         print(f"Web Portal Email Thread Exception Error for {recipient}: {e}")
 
 
-def second_mail(name, date, time):
+def second_mail(recipient,name, date, time):
     url = "https://api.emailjs.com/api/v1.0/email/send"
     payload = {
-        "service_id": EMAILJS_SERVICE_ID,
+        "service_id": SECOND_EMAILJS_SERVICE_ID,
         "template_id": SECOND_EMAILJS_TEMPLATE_ID,
-        "user_id": EMAILJS_PUBLIC_KEY,
+        "user_id": SECOND_EMAILJS_PUBLIC_KEY,
         "template_params": {
+            "recip" email,
             "name": name,
             "date": date,
             "time": time
