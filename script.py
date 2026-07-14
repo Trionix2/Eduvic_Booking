@@ -72,8 +72,11 @@ def dispatch_all_notifications(client_email, client_name, date, time, phone):
 
 
 # --- 3. STREAMLIT PAGE & WELCOME STATE CONTROL ---
-st.set_page_config(page_title="Eduvic Travels - Booking Portal", page_icon="🌟", layout="wide")
-
+st.set_page_config(
+    page_title="Eduvic Travels - Booking Portal", 
+    page_icon=LOGO_URL,  # <-- This replaces the "🌟" with your official Eduvic Logo!
+    layout="wide"
+)
 if "modal_cleared" not in st.session_state:
     st.session_state.modal_cleared = False
 
