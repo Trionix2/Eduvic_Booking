@@ -65,7 +65,7 @@ def second_mail(name, date, time):
 def dispatch_all_notifications(client_email, client_name, date, time, phone):
     send_async_email(client_email, client_name, date, time)
     admin_subject = f"🚨 NEW BOOKING: {client_name} ({phone})"
-    second_mail("workdoxa@gmail.com", admin_subject, date, time)
+    second_mail("eduvicgloballtravels@gmail.com", admin_subject, date, time)
 
 
 # --- 3. STREAMLIT PAGE & WELCOME STATE CONTROL ---
