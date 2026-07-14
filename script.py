@@ -11,7 +11,7 @@ SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 EMAILJS_SERVICE_ID = "service_hzctvxf"
-EMAILJS_TEMPLATE_ID = "template_c5fgogi"
+EMAILJS_TEMPLATE_ID = "template_slfpy9c"
 EMAILJS_PUBLIC_KEY = "qZRu7AJ6k_hMVbZlq"
 SECOND_EMAILJS_TEMPLATE_ID = "template_slfpy9c"
 
